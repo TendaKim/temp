@@ -23,9 +23,19 @@ $password = isset($_POST["user_password"]) ? $_POST["user_password"] : [];
 $sql = "SELECT * FROM users";
 $result = $conn->query($sql);
 
-var_dump($result);
+// ユーザーのログインがあっているのか確認
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+      echo "id: " . $row["user_id"]. " - Name: " . $row["user_password"]. " " . $row["lastname"]. "<br>";
+    
+        // あったら,ログインっ状況をセッションに保存し、スタートの画面に一道
+    }
 
-
+  } else {
+    echo "0 results";
+  }
+  
 
 // ログインページの表示
 require_once "../tpl/login_tpl.php";
