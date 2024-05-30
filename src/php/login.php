@@ -10,9 +10,9 @@ session_start();
 $is_login = isset($_SESSION["is_login"]) ? $_SESSION["is_login"] : [];
 
 // ログインされていたら移動
-if($is_login == true)
+if($is_login != 0)
 {
-    header('Location: ./start.php');
+    header('Location: ./start.php', 301);
     exit();
 }
 
@@ -27,8 +27,14 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-      echo "id: " . $row["user_id"]. " - Name: " . $row["user_password"]. " " . $row["lastname"]. "<br>";
-    
+        if(($row["user_id"]==$id) && ($row["password"])){
+            $_SESSION['is_login'] = $id;
+            header('Location: ./start.php', 301);
+            exit;
+        }
+        else{
+            $msg = "ログインに間違いがあります。";
+        }
         // あったら,ログインっ状況をセッションに保存し、スタートの画面に一道
     }
 
